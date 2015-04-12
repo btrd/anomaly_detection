@@ -65,11 +65,15 @@ class KMeanClusterer():
         return math.sqrt(res)
 
     def jsonify(self):
+        origin = []
+        for i in xrange(0, len(self.observations[0] )):
+            origin.append(0)
         res = '{"centroids":['
         for i in xrange(0, self.clusterNumber):
             if i != 0:
                 res += ','
-            res += '{"name":"centroid", "cluster":' + str(i) + ', "value":0}'
+            dist = self.computeDistance(origin, self.clusters[i].getCentroid())
+            res += '{"name":"centroid", "cluster":' + str(i) + ', "value":' + str(dist) + '}'
         res += '],"observations":['
         notPrems = False
         for i in xrange(0, self.clusterNumber):
@@ -116,4 +120,4 @@ if __name__ == "__main__":
     kMeanClusterer = KMeanClusterer(norm.getData(), fields, 3, 0)
 
     #kMeanClusterer.testIris()
-    print kMeanClusterer.jsonify()
+    print json.dumps(kMeanClusterer.jsonify())
