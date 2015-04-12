@@ -1,5 +1,6 @@
 import random
 import math
+import json
 import numpy as np
 from normalization import Normalizer
 from cluster import Cluster
@@ -63,6 +64,24 @@ class KMeanClusterer():
 
         return math.sqrt(res)
 
+    def jsonify(self):
+        res = '{"centroids":['
+        for i in xrange(0, self.clusterNumber):
+            if i != 0:
+                res += ','
+            res += '{"name":"centroid", "cluster":' + str(i) + ', "value":0}'
+        res += '],"observations":['
+        notPrems = False
+        for i in xrange(0, self.clusterNumber):
+            for obs in self.clusters[i].getObservations():
+                if notPrems:
+                    res += ','
+                notPrems = True
+                dist = self.computeDistance(obs, self.clusters[i].getCentroid())
+                res += '{"name":"test", "cluster":' + str(i) + ', "value":' + str(dist) + '}'
+        res += ']}'
+        return json.loads(res)
+
     def testIris(self):
         i = 0
         for c in self.clusters:
@@ -82,7 +101,6 @@ class KMeanClusterer():
             print "setosa: " + str(setosa/nO*100) + "%"
             print "versicolor: " + str(versicolor/nO*100) + "%"
             print "virginica: " + str(virginica/nO*100) + "%"
-            print ""
 
 if __name__ == "__main__":
     datafile = "kddcup.data_10_percent.csv"
@@ -94,8 +112,8 @@ if __name__ == "__main__":
     header = True
 
     norm = Normalizer(datafile, header)
-    print norm.getColFloat()
 
     kMeanClusterer = KMeanClusterer(norm.getData(), fields, 3, 0)
 
-    kMeanClusterer.testIris()
+    #kMeanClusterer.testIris()
+    print kMeanClusterer.jsonify()

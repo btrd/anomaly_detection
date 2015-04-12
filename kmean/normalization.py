@@ -27,10 +27,10 @@ class Normalizer():
                     cell = self.conv(i, j, cell)
                     rowRes.append(cell)
                     j += 1
-                data.append(rowRes)
+                self.data.append(rowRes)
                 i += 1
         if header:
-            data.pop(0)
+            self.data.pop(0)
 
     def getColFloat(self):
         return self.colFloat
