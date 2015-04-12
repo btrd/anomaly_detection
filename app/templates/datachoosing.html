@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %} Data {% endblock %}
+
+{% block bodyId %}data{% endblock %}
+
+{% block content %}
+	<form action="" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p>
+		<input class="btn-primary" type="submit" value="Lancer le calcul"/>
+	</p>
+	</form>
+{% endblock %}
