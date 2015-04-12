@@ -20,7 +20,6 @@ class KMeanClusterer():
                 c.updateCentroid()
 
     def initialization(self):
-        print "initialization"
         for x in xrange(0, self.clusterNumber):
             c = Cluster(self.fields)
             self.clusters.append(c)
@@ -34,7 +33,6 @@ class KMeanClusterer():
             c.updateCentroid()
 
     def assignement(self):
-        print "assignement"
         res = False
         for c in self.clusters:
             obs = c.getObservations()
@@ -47,7 +45,6 @@ class KMeanClusterer():
         return res
 
     def nearestCluster(self, obs):
-        print "nearestCluster"
         res = self.clusters[0]
         minDist = self.computeDistance(obs, res.getCentroid())
         for cluster in self.clusters:
@@ -58,7 +55,6 @@ class KMeanClusterer():
         return res
 
     def computeDistance(self, obs, centroid):
-        print "computeDistance"
         res = 0
         i = 0
         for f in self.fields:
@@ -92,11 +88,11 @@ if __name__ == "__main__":
     datafile = "kddcup.data_10_percent.csv"
     fields = [0, 4, 5, 6]
 
-    # datafile = "iris.csv"
-    # fields = [0, 1, 2, 3]
+    #datafile = "iris.csv"
+    #fields = [0, 1, 2, 3]
 
     norm = Normalizer()
-    iris_data = norm.load_csv(datafile, True)
+    iris_data = norm.load_csv(datafile, False)
 
     kMeanClusterer = KMeanClusterer(iris_data, fields, 3, 0)
-    #kMeanClusterer.testIris()
+    kMeanClusterer.testIris()
