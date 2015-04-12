@@ -13,7 +13,7 @@ class KMeanClusterer():
         self.datafile = datafile
         self.observations = observations
         self.fields = fields
-
+        self.n = n
         self.initialization()
 
         while self.assignement():
@@ -73,7 +73,7 @@ class KMeanClusterer():
             if i != 0:
                 res += ','
             dist = self.computeDistance(origin, self.clusters[i].getCentroid())
-            res += '{"name":"centroid", "cluster":' + str(i) + ', "value":' + str(dist) + '}'
+            res += '{"data":' + json.dumps(self.clusters[i].getCentroid()) + ', "cluster":' + str(i) + ', "value":' + str(dist) + '}'
         res += '],"observations":['
         notPrems = False
         for i in xrange(0, self.clusterNumber):
@@ -82,8 +82,8 @@ class KMeanClusterer():
                     res += ','
                 notPrems = True
                 dist = self.computeDistance(obs, self.clusters[i].getCentroid())
-                res += '{"name":"test", "cluster":' + str(i) + ', "value":' + str(dist) + '}'
-        res += ']}'
+                res += '{"data":' + json.dumps(obs) + ', "cluster":' + str(i) + ', "value":' + str(dist) + '}'
+        res += '],"N":' + str(self.n) + '}'
         return json.loads(res)
 
     def testIris(self):
