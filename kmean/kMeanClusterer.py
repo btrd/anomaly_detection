@@ -87,12 +87,15 @@ class KMeanClusterer():
 if __name__ == "__main__":
     datafile = "kddcup.data_10_percent.csv"
     fields = [0, 4, 5, 6]
+    header = False
 
-    #datafile = "iris.csv"
-    #fields = [0, 1, 2, 3]
+    datafile = "iris.csv"
+    fields = [0, 1, 2, 3]
+    header = True
 
-    norm = Normalizer()
-    iris_data = norm.load_csv(datafile, False)
+    norm = Normalizer(datafile, header)
+    print norm.getColFloat()
 
-    kMeanClusterer = KMeanClusterer(iris_data, fields, 3, 0)
+    kMeanClusterer = KMeanClusterer(norm.getData(), fields, 3, 0)
+
     kMeanClusterer.testIris()
