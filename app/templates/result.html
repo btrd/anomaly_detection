@@ -5,10 +5,18 @@
 {% block bodyId %}result{% endblock %}
 
 {% block content %}
-<h1> {{ filename }} </h1>
-<h3> K = {{ K }} | N = {{ N }} </h3>
-<p> Fields : {{ fields }} </p>
 	<div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h3> Filename : {{ filename }} </h3>
+      </div>
+      <div class="col-md-4">
+        <h3> Arguments : K = {{ K }} | N = {{ N }} </h3>
+      </div>
+      <div class="col-md-4">
+        <p> Fields : {{ fields }} </p>
+      </div>
+    </div>
 		<div class="row" id="clusters"></div>
 	</div>
 

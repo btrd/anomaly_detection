@@ -43,3 +43,7 @@ button[type="submit"]{
     -webkit-transform: scale(1.0);
   }
 }
+
+#headTitle {
+  text-decoration: none;
+}
