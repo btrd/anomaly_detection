@@ -1,24 +1,64 @@
-//Donut chart example
-nv.addGraph(function() {
-  var chart = nv.models.pieChart()
-      .x(function(d) { return d.label })
-      .y(function(d) { return d.value })
-      .showLabels(true)     //Display pie labels
-      .labelThreshold(.05)  //Configure the minimum slice size for labels to show up
-      .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
-      .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
-      .donutRatio(0.35)     //Configure how big you want the donut hole size to be.
-      ;
+$.each(data.clusters, function(i, val){
+  var cluster = d3.select("#result").append("div")
+  .attr("id", "cluster"+i)
+  .attr("class", "span9");
 
-    d3.select("#chart2 svg")
-        .datum(exampleData())
-        .transition().duration(350)
-        .call(chart);
+  cluster.append("h2").text("Cluster "+(i+1));
 
-  return chart;
+  var correct = cluster
+  .append("div")
+  .attr("class", "span4 correct")
+
+  correct.append("p").text("Normals");
+  correct.append("svg");
+
+  var anomaly = cluster
+  .append("div")
+  .attr("class", "span4 anomaly")
+
+  anomaly.append("p").text("Anomalies with "+data.N+" %");
+  anomaly.append("svg");
+
+
+  nv.addGraph(function() {
+    var chart = nv.models.pieChart()
+        .x(function(d) { return d.label })
+        .y(function(d) { return d.value })
+        .showLabels(true)     
+        .labelThreshold(.05)  
+        .labelType("percent") 
+        .donut(true)          
+        .donutRatio(0.35)    
+        ;
+
+      d3.select("#cluster"+i+" .correct svg")
+          .datum(getData(i, 0))
+          .transition().duration(350)
+          .call(chart);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.pieChart()
+        .x(function(d) { return d.label })
+        .y(function(d) { return d.value })
+        .showLabels(true)     
+        .labelThreshold(.05)  
+        .labelType("percent") 
+        .donut(true)          
+        .donutRatio(0.35)     
+        ;
+
+      d3.select("#cluster"+i+" .anomaly svg")
+          .datum(getData(i, 1))
+          .transition().duration(350)
+          .call(chart);
+
+    return chart;
+  });
 });
 
-//Pie chart example data. Note how there is only a single array of key-value pairs.
-function exampleData() {
-  return  [{"label":"one", "value":102},{"label":"two", "value":330},{"label":"three", "value":443}];
+function getData(i, flag) {
+  return  flag == 1 ? data.clusters[i].stats[0].anomalies : data.clusters[i].stats[1].corrects;
 }
