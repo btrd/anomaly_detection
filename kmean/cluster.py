@@ -1,41 +1,54 @@
 import numpy as np
+import copy as copy
+import math
 
 class Cluster():
-    def __init__(self, fields):
-        self.observations = []
-        self.centroid = []
-        self.fields = fields
+    def __init__(self, name, length):
+        tmpArr = []
+        for x in xrange(0,length+1):
+            tmpArr.append(0)
+        self.observations = np.array([tmpArr])
+        self.initObs = True
+        self.centroid = np.array([0,0,0,0])
+        self.name = name
 
-    def addObservation(self, observation):
-        self.observations.append(observation)
+    def addObservation(self, observation, dist):
+        observation[observation.shape[0]-1] = dist
+        arrayObs = np.array([observation])
+        self.observations = np.append(self.observations, arrayObs, axis=0)
+        if self.initObs:
+            self.initObs = False
+            self.observations = np.delete(self.observations, 0, 0)
+
+    def updateDist(self):
+        for i in xrange(0,self.observations.shape[0]):
+            observation = self.observations[i]
+            dist = self.distanceToCentroid(observation)
+            observation[observation.shape[0]-1] = dist
+            self.observations[i] = observation
 
     def updateCentroid(self):
-        arrayObs = np.array(self.observations)
-        delFields = []
-        for i in xrange(0, len(arrayObs[0])):
-            if i not in self.fields:
-                delFields.append(i)
-        arrayObs = np.delete(arrayObs, delFields, -1)
-        arrayObs = arrayObs.astype(np.float)
-        self.centroid = arrayObs.mean(axis=0).tolist()
+        self.centroid = np.mean(self.observations, axis=0)
 
-    def deleteObservation(self, obs):
-        self.observations.remove(obs)
+    def deleteObservation(self, delObs):
+        self.observations = np.delete(self.observations, delObs, 0)
 
-    def equals(self, other):
-        return (self.observations == other.observations) and (self.centroid == other.centroid)
+    def getAnomaly(self, n):
+        s = self.observations.shape[0]
+        nAnomaly = s * n /100
+        nNormal = s - nAnomaly
+        if nAnomaly > 0:
+            res = np.split(self.observations, [nNormal])
+        else:
+            res = self.observations, []
+        return res
 
     def sortObservations(self):
-        arrayObs = np.array(self.observations)
-        for obs in arrayObs:
-            obs.append(distanceToCentroid(obs))
-        arrayObs[arrayObs[:,-1].argsort()]
+        self.observations = self.observations[np.argsort(self.observations[:,-1])]
 
     def distanceToCentroid(self, obs):
         res = 0
-        i = 0
-        for f in self.fields:
-            res += ((obs[f] - self.centroid[i]) ** 2)
-            i += 1
+        for i in xrange(0, len(self.centroid)):
+            res += ((obs[i] - self.centroid[i]) ** 2)
 
         return math.sqrt(res)

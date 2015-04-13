@@ -1,39 +1,47 @@
 import csv
+import numpy as np
 
 class Normalizer():
-    def conv(self, i, j, s):
-        try:
-            s = float(s)
-        except ValueError:
-            if j in self.colFloat:
-                if (self.header and i > 0) or not self.header:
-                    self.colFloat.remove(j)
-        return s
-
     def __init__(self, dataFile, header):
-        self.data = []
-        defCol = True
+        self.dataFile = dataFile
         self.header = header
-        with open(dataFile, 'rU') as desc:
+
+    def getCol(self):
+        res = []
+        i = 0
+        with open(self.dataFile, 'rU') as desc:
             reader = csv.reader(desc)
-            i = 0
             for row in reader:
-                if defCol:
-                    defCol = False
-                    self.colFloat = [x for x in range(len(row))]
-                rowRes = []
-                j = 0
                 for cell in row:
-                    cell = self.conv(i, j, cell)
-                    rowRes.append(cell)
-                    j += 1
-                self.data.append(rowRes)
-                i += 1
-        if header:
-            self.data.pop(0)
+                    if self.header:
+                        res.append(cell)
+                    else:
+                        res.append(i)
+                    i += 1
+                return res
 
-    def getColFloat(self):
-        return self.colFloat
+    def run(self, fields, fieldClass):
+        if self.header:
+            head = 1
+        else:
+            head = 0
+        fields.append(fieldClass)
 
-    def getData(self):
+        classes = self.runClasses(fieldClass)
+
+        classes_map = dict([(s, i) for i, s in enumerate(classes)])
+        class2id = lambda s: classes_map.get(s, -1)
+
+        self.data = np.loadtxt(open(self.dataFile,"rb"), usecols=fields, delimiter=",", converters={fieldClass:class2id}, skiprows=head)
         return self.data
+
+    def runClasses(self, fieldClass):
+        self.classes = []
+        with open(self.dataFile, 'rU') as desc:
+            reader = csv.reader(desc)
+            for row in reader:
+                if row[fieldClass] not in self.classes:
+                    self.classes.append(row[fieldClass])
+        if self.header:
+            self.classes.pop(0)
+        return self.classes
