@@ -22,15 +22,9 @@ class KMeanClusterer():
                 c.updateCentroid()
 
         for cluster in self.clusters:
-            print "self.observations"
-            print cluster.observations
-            print "self.observations.shape[0]"
-            print cluster.observations.shape[0]
             if cluster.observations.shape[0] == 0:
-                print "0"
                 self.lastClusters.append([[],[]])
             else:
-                print "pas0"
                 cluster.sortObservations()
                 corrects, anomalies = cluster.getAnomalies(self.n)
                 classAnomalies = anomalies[:,-2].astype(int)
@@ -113,10 +107,12 @@ class KMeanClusterer():
 
 if __name__ == "__main__":
 
-    # datafile = "kddcup.data_10_percent.csv"
-    # fields = [0, 4, 5, 6]
-    # header = False
-    # fieldClass = 41
+    datafile = "kddcup.data_10_percent.csv"
+    fields = [0, 4, 5, 22, 24, 25, 28, 31, 32, 35, 37, 38]
+    header = False
+    fieldClass = 41
+    k = 23
+    n = 20
 
     # datafile = "kddcup.data_1000.csv"
     # fields = [0, 4, 5, 6]
@@ -125,15 +121,15 @@ if __name__ == "__main__":
     # k = 8
     # n = 50
 
-    datafile = "iris.csv"
-    fields = [0, 1, 2, 3]
-    fieldClass = 4
-    header = True
-    k = 3
-    n = 50
+    # datafile = "iris.csv"
+    # fields = [0, 1, 2, 3]
+    # fieldClass = 4
+    # header = True
+    # k = 3
+    # n = 50
 
     norm = Normalizer(datafile, header)
     res = norm.run(fields, fieldClass)
     classes = norm.classes
     kMeanClusterer = KMeanClusterer(res, classes, k, n)
-    json.dumps(kMeanClusterer.jsonify(), indent=2, separators=(',', ': '))
+    print json.dumps(kMeanClusterer.jsonify(), indent=2, separators=(',', ': '))
