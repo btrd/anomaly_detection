@@ -5,7 +5,7 @@
 {% block bodyId %}result{% endblock %}
 
 {% block content %}
-<h1> {{ filename }} </h1>
+<legend> {{ filename }} </legend>
 <h3> K = {{ K }} | N = {{ N }} </h3>
 <p> Fields : {{ fields }} </p>
 	<div class="container">
@@ -15,20 +15,6 @@
   {% block javascript %}
   {% load staticfiles %}
   <script type="text/javascript">
- /* var data = {
-    "clusters":[{
-      "stats":[
-        {"anomalies":[{"label":"a", "value":200},{"label":"b", "value":3992},{"label":"c", "value":3993}]},
-        {"corrects":[{"label":"e", "value":12},{"label":"f", "value":873},{"label":"g", "value":6647}]}
-      ]
-    },
-    {"stats":[
-        {"anomalies":[{"label":"one", "value":8383},{"label":"two", "value":39},{"label":"three", "value":863}]},
-        {"corrects":[{"label":"four", "value":3},{"label":"five", "value":76},{"label":"six", "value":67}]}
-      ]}
-    ],
-    "N":10
-  }; */
     var data = {{ json|safe }}
   </script>
   <script type="text/javascript" src="{% static "js/nvd3_cluster.js" %}"></script>
