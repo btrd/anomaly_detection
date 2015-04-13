@@ -6,6 +6,7 @@ from django import forms
 from forms import FileChoosingform
 from forms import DataChoosingform
 from kmean.normalization import Normalizer
+from kmean.kMeanClusterer import KMeanClusterer
 
 def welcome(request):
 	return render(request, 'welcome.html')
@@ -17,13 +18,14 @@ def filechoosing(request):
 	if request.method == "POST":
 		form = FileChoosingform(request.POST, request.FILES)
 		if form.is_valid():
-			print 
+			entete = False
 			path = handle_uploaded_file(request.FILES['csvfile'],str(request.FILES['csvfile']))
-			#norm = Normalizer(path, False)
-			#print norm.getColFloat()
-			request.session['column'] = ["pouet","foo","bar"]
 			if 'entete' in request.POST:
-				print('entete présente')
+				entete = True
+			norm = Normalizer(path, entete)
+			request.session['path'] = path
+			request.session['entete'] = entete
+			request.session['column'] = norm.getCol()
 			#extract column name from file
 			return HttpResponseRedirect('/datachoosing')
 		else:
@@ -37,12 +39,23 @@ def datachoosing(request):
 		CHOICES = buildtuple(request.session['column'])
 	else:
 		return HttpResponseRedirect('/filechoosing')
-	#CHOICES = (("0", "column0"),("1", "column1"),("2", "column2"),("3", "column3"))
 	if request.method == "POST":
 		form = DataChoosingform(request.POST)
 		form.fields['champs'] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=CHOICES)
 		if form.is_valid():
-			#Do Kmean
+			indexclass = int(form.cleaned_data['index'])
+			valueK = int(form.cleaned_data['valueK'])
+			valueN = int(form.cleaned_data['valueN'])
+			fields = converttab(form.cleaned_data['champs'])
+			
+
+			norm = Normalizer(request.session['path'], request.session['entete'])
+			res = norm.run(fields, indexclass)
+			classes = norm.classes
+			kMeanClusterer = KMeanClusterer(res, classes, valueK, valueN)
+			jsonres = json.dumps(kMeanClusterer.jsonify())
+
+			request.session['jsondata'] = saveJson(jsonres)
 			return HttpResponseRedirect('/result')
 		else:
 			return render(request, 'datachoosing.html', {'form' : form})
@@ -62,7 +75,6 @@ def handle_uploaded_file(file, name):
 		print("File already on server, abord upload")
 	return path
 
-
 def buildtuple(tab):
 	i = 0
 	res = []
@@ -70,3 +82,21 @@ def buildtuple(tab):
 		res.append((i, elem))
 		i = i+1
 	return res
+
+def converttab(tab):
+	i = 0
+	res = []
+	for elem in tab:
+		res.append(int(elem))
+		i = i+1
+	return res
+
+def saveData(file, K, N, fields, json):
+	data = {}
+	data['file']   = file
+	data['K']      = K
+	data['N']      = N
+	data['fields'] = fields
+	data['json']   = json
+	res = json.dumps(data)
+	print res
