@@ -1,20 +1,5 @@
-var data = {
-  "clusters":[{
-    "stats":[
-      {"anomalies":[{"label":"a", "value":200},{"label":"b", "value":3992},{"label":"c", "value":3993}]},
-      {"corrects":[{"label":"e", "value":12},{"label":"f", "value":873},{"label":"g", "value":6647}]}
-    ]
-  },
-  {"stats":[
-      {"anomalies":[{"label":"one", "value":8383},{"label":"two", "value":39},{"label":"three", "value":863}]},
-      {"corrects":[{"label":"four", "value":3},{"label":"five", "value":76},{"label":"six", "value":67}]}
-    ]}
-  ],
-  "N":10
-};
-
 $.each(data.clusters, function(i, val){
-  var cluster = d3.select("#result").append("div")
+  var cluster = d3.select("#clusters").append("div")
   .attr("id", "cluster"+i)
   .attr("class", "col-md-12");
 
