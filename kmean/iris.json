@@ -1,1 +1,85 @@
-{"clusters": [{"stats": [{"anomalies": [{"value": 14, "label": "Iris-setosa"}]}, {"corrects": [{"value": 12, "label": "Iris-setosa"}, {"value": 3, "label": "Iris-versicolor"}]}]}, {"stats": [{"anomalies": [{"value": 14, "label": "Iris-setosa"}]}, {"corrects": [{"value": 12, "label": "Iris-setosa"}, {"value": 3, "label": "Iris-versicolor"}]}]}, {"stats": [{"anomalies": [{"value": 14, "label": "Iris-setosa"}]}, {"corrects": [{"value": 12, "label": "Iris-setosa"}, {"value": 3, "label": "Iris-versicolor"}]}]}, {"stats": [{"anomalies": [{"value": 14, "label": "Iris-setosa"}]}, {"corrects": [{"value": 12, "label": "Iris-setosa"}, {"value": 3, "label": "Iris-versicolor"}]}]}, {"stats": [{"anomalies": [{"value": 14, "label": "Iris-setosa"}]}, {"corrects": [{"value": 12, "label": "Iris-setosa"}, {"value": 3, "label": "Iris-versicolor"}]}]}, {"stats": [{"anomalies": [{"value": 14, "label": "Iris-setosa"}]}, {"corrects": [{"value": 12, "label": "Iris-setosa"}, {"value": 3, "label": "Iris-versicolor"}]}]}], "N": 50}
+{
+  "clusters": [
+    {
+      "stats": [
+        {
+          "anomalies": [
+            {
+              "value": 14,
+              "label": "Iris-setosa"
+            }
+          ]
+        },
+        {
+          "corrects": [
+            {
+              "value": 12,
+              "label": "Iris-setosa"
+            },
+            {
+              "value": 3,
+              "label": "Iris-versicolor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stats": [
+        {
+          "anomalies": [
+            {
+              "value": 12,
+              "label": "Iris-setosa"
+            }
+          ]
+        },
+        {
+          "corrects": [
+            {
+              "value": 12,
+              "label": "Iris-setosa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stats": [
+        {
+          "anomalies": [
+            {
+              "value": 0,
+              "label": "Iris-setosa"
+            },
+            {
+              "value": 5,
+              "label": "Iris-versicolor"
+            },
+            {
+              "value": 43,
+              "label": "Iris-virginica"
+            }
+          ]
+        },
+        {
+          "corrects": [
+            {
+              "value": 0,
+              "label": "Iris-setosa"
+            },
+            {
+              "value": 42,
+              "label": "Iris-versicolor"
+            },
+            {
+              "value": 7,
+              "label": "Iris-virginica"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "N": 50
+}

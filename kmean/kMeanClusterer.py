@@ -21,13 +21,14 @@ class KMeanClusterer():
             for c in self.clusters:
                 c.updateCentroid()
 
+        i = 0
         for cluster in self.clusters:
             cluster.sortObservations()
             corrects, anomalies = cluster.getAnomalies(self.n)
             classAnomalies = anomalies[:,-2].astype(int)
             classCorrects = corrects[:,-2].astype(int)
-            self.lastClusters.append( np.bincount(classAnomalies) )
-            self.lastClusters.append( np.bincount(classCorrects) )
+            tmptab = [np.bincount(classAnomalies), np.bincount(classCorrects)]
+            self.lastClusters.append(tmptab)
 
     def initialization(self):
         for i in xrange(0, self.clusterNumber):
@@ -82,15 +83,15 @@ class KMeanClusterer():
             if i > 0:
                 res += ','
             res += '{"stats":[{"anomalies":['
-            for j in xrange(0, len(self.lastClusters[0])):
+            for j in xrange(0, len(cluster[0])):
                 if j > 0:
                     res += ','
-                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(self.lastClusters[0][j]) + '}'
+                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(cluster[0][j]) + '}'
             res += ']},{"corrects":['
-            for j in xrange(0, len(self.lastClusters[1])):
+            for j in xrange(0, len(cluster[1])):
                 if j > 0:
                     res += ','
-                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(self.lastClusters[1][j]) + '}'
+                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(cluster[1][j]) + '}'
             res += ']}]}'
             i += 1
         res += '],"N":' + str(self.n) + '}'
@@ -103,18 +104,18 @@ if __name__ == "__main__":
     # header = False
     # fieldClass = 41
 
-    datafile = "kddcup.data_1000.csv"
-    fields = [0, 4, 5, 6]
-    header = False
-    fieldClass = 41
+    # datafile = "kddcup.data_1000.csv"
+    # fields = [0, 4, 5, 6]
+    # header = False
+    # fieldClass = 41
 
-    # datafile = "iris.csv"
-    # fields = [0, 1, 2, 3]
-    # fieldClass = 4
-    # header = True
+    datafile = "iris.csv"
+    fields = [0, 1, 2, 3]
+    fieldClass = 4
+    header = True
 
     norm = Normalizer(datafile, header)
     res = norm.run(fields, fieldClass)
     classes = norm.classes
     kMeanClusterer = KMeanClusterer(res, classes, 3, 50)
-    print json.dumps(kMeanClusterer.jsonify())
+    print json.dumps(kMeanClusterer.jsonify(), indent=2, separators=(',', ': '))
