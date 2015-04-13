@@ -33,7 +33,7 @@ class Cluster():
     def deleteObservation(self, delObs):
         self.observations = np.delete(self.observations, delObs, 0)
 
-    def getAnomaly(self, n):
+    def getAnomalies(self, n):
         s = self.observations.shape[0]
         nAnomaly = s * n /100
         nNormal = s - nAnomaly

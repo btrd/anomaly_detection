@@ -7,13 +7,15 @@ from cluster import Cluster
 
 class KMeanClusterer():
 
-    def __init__(self, observations, k, n):
+    def __init__(self, observations, classes, k, n):
         self.FIELDSNOTUSE = 2
         self.clusterNumber = k
         self.clusters = []
         self.observations = observations
         self.n = n
         self.initialization()
+        self.lastClusters = []
+        self.classes = classes
 
         while self.assignement():
             for c in self.clusters:
@@ -21,7 +23,11 @@ class KMeanClusterer():
 
         for cluster in self.clusters:
             cluster.sortObservations()
-            normal, anomaly = cluster.getAnomaly(self.n)
+            corrects, anomalies = cluster.getAnomalies(self.n)
+            classAnomalies = anomalies[:,-2].astype(int)
+            classCorrects = corrects[:,-2].astype(int)
+            self.lastClusters.append( np.bincount(classAnomalies) )
+            self.lastClusters.append( np.bincount(classCorrects) )
 
     def initialization(self):
         for i in xrange(0, self.clusterNumber):
@@ -70,26 +76,23 @@ class KMeanClusterer():
         return math.sqrt(res)
 
     def jsonify(self):
-        #doesn't work anymore
-        origin = []
-        for i in xrange(0, len(self.observations[0] )):
-            origin.append(0)
-
-        res = '{"centroids":['
-        for i in xrange(0, self.clusterNumber):
-            if i != 0:
+        res = '{"clusters":['
+        i = 0
+        for cluster in self.lastClusters:
+            if i > 0:
                 res += ','
-            dist = self.computeDistance(origin, self.clusters[i].centroid)
-            res += '{"data":' + json.dumps(self.clusters[i].centroid) + ', "cluster":' + str(i) + ', "value":' + str(dist) + '}'
-        res += '],"observations":['
-        notPrems = False
-        for i in xrange(0, self.clusterNumber):
-            for obs in self.clusters[i].observations:
-                if notPrems:
+            res += '{"stats":[{"anomalies":['
+            for j in xrange(0, len(self.lastClusters[0])):
+                if j > 0:
                     res += ','
-                notPrems = True
-                dist = self.computeDistance(obs, self.clusters[i].centroid)
-                res += '{"data":' + json.dumps(obs) + ', "cluster":' + str(i) + ', "value":' + str(dist) + '}'
+                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(self.lastClusters[0][j]) + '}'
+            res += ']},{"corrects":['
+            for j in xrange(0, len(self.lastClusters[1])):
+                if j > 0:
+                    res += ','
+                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(self.lastClusters[1][j]) + '}'
+            res += ']}]}'
+            i += 1
         res += '],"N":' + str(self.n) + '}'
         return json.loads(res)
 
@@ -100,17 +103,18 @@ if __name__ == "__main__":
     # header = False
     # fieldClass = 41
 
-    # datafile = "kddcup.data_1000.csv"
-    # fields = [0, 4, 5, 6]
-    # header = False
-    # fieldClass = 41
+    datafile = "kddcup.data_1000.csv"
+    fields = [0, 4, 5, 6]
+    header = False
+    fieldClass = 41
 
-    datafile = "iris.csv"
-    fields = [0, 1, 2, 3]
-    fieldClass = 4
-    header = True
+    # datafile = "iris.csv"
+    # fields = [0, 1, 2, 3]
+    # fieldClass = 4
+    # header = True
 
     norm = Normalizer(datafile, header)
     res = norm.run(fields, fieldClass)
     classes = norm.classes
-    # kMeanClusterer = KMeanClusterer(res, 3, 50)
+    kMeanClusterer = KMeanClusterer(res, classes, 3, 50)
+    print json.dumps(kMeanClusterer.jsonify())

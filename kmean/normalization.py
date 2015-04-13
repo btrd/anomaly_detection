@@ -33,6 +33,7 @@ class Normalizer():
         class2id = lambda s: classes_map.get(s, -1)
 
         self.data = np.loadtxt(open(self.dataFile,"rb"), usecols=fields, delimiter=",", converters={fieldClass:class2id}, skiprows=head)
+        
         return self.data
 
     def runClasses(self, fieldClass):
