@@ -19,14 +19,29 @@ class Normalizer():
                         res.append(i)
                     i += 1
                 return res
-            
 
-    def run(self, fields):
+    def run(self, fields, fieldClass):
         if self.header:
             head = 1
         else:
             head = 0
-        self.data = np.loadtxt(open(self.dataFile,"rb"), usecols=fields, delimiter=",", skiprows=head)
+        fields.append(fieldClass)
 
-    def getData(self):
-        return np.array(self.data)
+        classes = self.runClasses(fieldClass)
+
+        classes_map = dict([(s, i) for i, s in enumerate(classes)])
+        class2id = lambda s: classes_map.get(s, -1)
+
+        self.data = np.loadtxt(open(self.dataFile,"rb"), usecols=fields, delimiter=",", converters={fieldClass:class2id}, skiprows=head)
+        return self.data
+
+    def runClasses(self, fieldClass):
+        self.classes = []
+        with open(self.dataFile, 'rU') as desc:
+            reader = csv.reader(desc)
+            for row in reader:
+                if row[fieldClass] not in self.classes:
+                    self.classes.append(row[fieldClass])
+        if self.header:
+            self.classes.pop(0)
+        return self.classes
