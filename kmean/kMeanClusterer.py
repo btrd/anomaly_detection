@@ -21,7 +21,6 @@ class KMeanClusterer():
             for c in self.clusters:
                 c.updateCentroid()
 
-        i = 0
         for cluster in self.clusters:
             cluster.sortObservations()
             corrects, anomalies = cluster.getAnomalies(self.n)
@@ -83,15 +82,21 @@ class KMeanClusterer():
             if i > 0:
                 res += ','
             res += '{"stats":[{"anomalies":['
+            k = 0
             for j in xrange(0, len(cluster[0])):
-                if j > 0:
-                    res += ','
-                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(cluster[0][j]) + '}'
+                if cluster[0][j] > 0:
+                    if k > 0:
+                        res += ','
+                    res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(cluster[0][j]) + '}'
+                    k += 1
             res += ']},{"corrects":['
+            k = 0
             for j in xrange(0, len(cluster[1])):
-                if j > 0:
-                    res += ','
-                res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(cluster[1][j]) + '}'
+                if cluster[1][j] > 0:
+                    if k > 0:
+                        res += ','
+                    res += '{"label":"' + str(self.classes[j]) + '", "value":' + str(cluster[1][j]) + '}'
+                    k += 1
             res += ']}]}'
             i += 1
         res += '],"N":' + str(self.n) + '}'
