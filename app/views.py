@@ -64,7 +64,7 @@ def filechoosing(request):
 
 def datachoosing(request):
 	if 'column' in request.session:
-		CHOICES = buildtuple(request.session['column'])
+		CHOICES = request.session['column']
 	else:
 		return HttpResponseRedirect('/')
 	if request.method == "POST":
@@ -99,14 +99,6 @@ def handle_uploaded_file(file, name):
 	else:
 		print("File already on server, abord upload")
 	return path
-
-def buildtuple(tab):
-	i = 0
-	res = []
-	for elem in tab:
-		res.append((i, elem))
-		i = i+1
-	return res
 
 def converttab(tab):
 	i = 0

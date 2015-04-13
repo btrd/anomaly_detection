@@ -69,10 +69,10 @@ class Normalizer():
                     floats.append(True)
                 except ValueError:
                     floats.append(False)
-                    
+
             i = 0
             for elem in title:
                 if floats[i]:
-                    res.append(elem)
+                    res.append((i,elem))
                 i += 1
             return res
