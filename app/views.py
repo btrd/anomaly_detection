@@ -13,12 +13,6 @@ from forms import OldResultForm
 from kmean.normalization import Normalizer
 from kmean.kMeanClusterer import KMeanClusterer
 
-#	data['file']   = file
-#	data['K']      = K
-#	data['N']      = N
-#	data['fields'] = fields
-#	data['json']   = jsondata
-
 def result(request):
 	if 'file' in request.GET:
 		path = str(request.GET['file'])
@@ -50,10 +44,11 @@ def filechoosing(request):
 				return HttpResponseRedirect('/datachoosing')
 			else:
 				form_results = OldResultForm()
-				form_results.fields['oldresult'] = forms.ChoiceField(choices=CHOICES)
+				form_results.fields['oldresult'].choices = CHOICES
 				return render(request, 'filechoosing.html', {'form' : form, 'form_results' : form_results})
 		else: #Gestion du formulaire Oldresult
 			form_results = OldResultForm(request.POST)
+			form_results.fields['oldresult'].choices = CHOICES
 			if form_results.is_valid():
 				jsondata = request.POST['oldresult']
 				return HttpResponseRedirect('/result?file=app/static/jsons/'+jsondata)
@@ -63,7 +58,7 @@ def filechoosing(request):
 	else:
 		form = FileChoosingform()
 		form_results = OldResultForm()
-		form_results.fields['oldresult'] = forms.ChoiceField(choices=CHOICES)
+		form_results.fields['oldresult'].choices = CHOICES
 		return render(request, 'filechoosing.html', {'form' : form, 'form_results' : form_results})
 
 
@@ -135,7 +130,7 @@ def saveData(file, K, N, fields, jsondata):
 	return path
 
 def getallsavedJson():
-	res = []
+	res = [('None', '--------')]
 	pathdir = 'app/static/jsons/'
 	for f in listdir(pathdir):
 		if isfile(join(pathdir,f)):

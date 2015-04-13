@@ -3,14 +3,14 @@ from django import forms
 
 
 class FileChoosingform(forms.Form):
-	csvfile = forms.FileField(label ="Fichier csv")
-	entete = forms.BooleanField(label = "nom dans l'entête ?", required=False, initial=False)
+	csvfile = forms.FileField(label ="csv file")
+	entete = forms.BooleanField(label = "name ahead ?", required=False, initial=False)
 
 class DataChoosingform(forms.Form):
-	index  = forms.IntegerField(min_value = 0, label="Index des classes",help_text = "Index de la colonne contenant les classes")
-	valueK = forms.DecimalField(min_value = 0, label = "Valeur de K", help_text='valeur supérieur à 0')
-	valueN = forms.DecimalField(min_value = 0, max_value = 100, label = "Valeur de N", help_text='valeur entre 0 et 100')
+	index  = forms.IntegerField(min_value = 0, label="Classes index",help_text = "Index of the column containing the classes names")
+	valueK = forms.DecimalField(min_value = 0, label = "K value", help_text='value greater than 0')
+	valueN = forms.DecimalField(min_value = 0, max_value = 100, label = "N value", help_text='value between 0 and 100')
 	champs = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
 
 class OldResultForm(forms.Form):
-	oldresult = forms.ChoiceField()
+	oldresult = forms.ChoiceField(label ="Old Result")
