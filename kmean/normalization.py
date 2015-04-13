@@ -33,7 +33,10 @@ class Normalizer():
         class2id = lambda s: classes_map.get(s, -1)
 
         self.data = np.loadtxt(open(self.dataFile,"rb"), usecols=fields, delimiter=",", converters={fieldClass:class2id}, skiprows=head)
-        
+
+        # get every 100 item to keep 5000 obs
+        # self.data = self.data[::100]
+
         return self.data
 
     def runClasses(self, fieldClass):
@@ -69,10 +72,10 @@ class Normalizer():
                     floats.append(True)
                 except ValueError:
                     floats.append(False)
-
+                    
             i = 0
             for elem in title:
                 if floats[i]:
-                    res.append((i,elem))
+                    res.append(elem)
                 i += 1
             return res
