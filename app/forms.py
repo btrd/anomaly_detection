@@ -11,3 +11,6 @@ class DataChoosingform(forms.Form):
 	valueK = forms.DecimalField(min_value = 0, label = "Valeur de K", help_text='valeur supérieur à 0')
 	valueN = forms.DecimalField(min_value = 0, max_value = 100, label = "Valeur de N", help_text='valeur entre 0 et 100')
 	champs = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
+
+class OldResultForm(forms.Form):
+	oldresult = forms.ChoiceField()
