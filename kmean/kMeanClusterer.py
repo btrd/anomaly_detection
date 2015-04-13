@@ -22,12 +22,21 @@ class KMeanClusterer():
                 c.updateCentroid()
 
         for cluster in self.clusters:
-            cluster.sortObservations()
-            corrects, anomalies = cluster.getAnomalies(self.n)
-            classAnomalies = anomalies[:,-2].astype(int)
-            classCorrects = corrects[:,-2].astype(int)
-            tmptab = [np.bincount(classAnomalies), np.bincount(classCorrects)]
-            self.lastClusters.append(tmptab)
+            print "self.observations"
+            print cluster.observations
+            print "self.observations.shape[0]"
+            print cluster.observations.shape[0]
+            if cluster.observations.shape[0] == 0:
+                print "0"
+                self.lastClusters.append([[],[]])
+            else:
+                print "pas0"
+                cluster.sortObservations()
+                corrects, anomalies = cluster.getAnomalies(self.n)
+                classAnomalies = anomalies[:,-2].astype(int)
+                classCorrects = corrects[:,-2].astype(int)
+                tmptab = [np.bincount(classAnomalies), np.bincount(classCorrects)]
+                self.lastClusters.append(tmptab)
 
     def initialization(self):
         for i in xrange(0, self.clusterNumber):
@@ -46,16 +55,16 @@ class KMeanClusterer():
 
     def assignement(self):
         res = False
-        for clu in self.clusters:
+        for cluster in self.clusters:
             delObs = []
-            for i in xrange(0, clu.observations.shape[0]):
-                obs = clu.observations[i]
+            for i in xrange(0, cluster.observations.shape[0]):
+                obs = cluster.observations[i]
                 dist, nearestCluster = self.nearestCluster(obs)
-                if not nearestCluster.name == clu.name:
+                if not nearestCluster.name == cluster.name:
                     nearestCluster.addObservation(obs, dist)
                     delObs.append(i)
                     res = True
-            clu.deleteObservation(delObs)
+            cluster.deleteObservation(delObs)
         return res
 
     def nearestCluster(self, obs):
@@ -113,14 +122,18 @@ if __name__ == "__main__":
     # fields = [0, 4, 5, 6]
     # header = False
     # fieldClass = 41
+    # k = 8
+    # n = 50
 
     datafile = "iris.csv"
     fields = [0, 1, 2, 3]
     fieldClass = 4
     header = True
+    k = 3
+    n = 50
 
     norm = Normalizer(datafile, header)
     res = norm.run(fields, fieldClass)
     classes = norm.classes
-    kMeanClusterer = KMeanClusterer(res, classes, 3, 50)
-    print json.dumps(kMeanClusterer.jsonify(), indent=2, separators=(',', ': '))
+    kMeanClusterer = KMeanClusterer(res, classes, k, n)
+    json.dumps(kMeanClusterer.jsonify(), indent=2, separators=(',', ': '))

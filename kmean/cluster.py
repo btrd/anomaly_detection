@@ -4,12 +4,14 @@ import math
 
 class Cluster():
     def __init__(self, name, length):
+        self.length = length
         tmpArr = []
-        for x in xrange(0,length+1):
+        for x in xrange(0,self.length):
             tmpArr.append(0)
+        self.centroid = np.array([tmpArr])
+        tmpArr.append(0)
         self.observations = np.array([tmpArr])
         self.initObs = True
-        self.centroid = np.array([0,0,0,0])
         self.name = name
 
     def addObservation(self, observation, dist):
