@@ -1,15 +1,29 @@
 {% extends "base.html" %}
+{% load bootstrap %}
 
 {% block title %} File {% endblock %}
 
 {% block bodyId %}welcomePage{% endblock %}
 
 {% block content %}
-	<form action="" method="post" enctype="multipart/form-data">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<p>
-		<input class="btn-primary" type="submit" value="Choisir les données du calcul"/>
-	</p>
-	</form>
+	<div class="container">
+		<div class="row col-md-offset-1 col-md-10">
+			<form action="" role="form" method="post" enctype="multipart/form-data">
+		    <legend>Choose datafiles : </legend>
+			    {% csrf_token %}
+			    {{ form|bootstrap_horizontal }}
+			    <div class="form-group">
+			      <button type="submit" class="btn btn-primary">Choose the datas for the K-Mean algorithm</button>
+			    </div>
+			</form>
+		</div>
+		<div class="row col-md-offset-1 col-md-10">
+			<form action="" role="form" method="post" enctype="multipart/form-data">
+		    <legend>Choose old result files : </legend>
+			    <div class="form-group">
+			      <button type="submit" class="btn btn-primary">See result</button>
+			    </div>
+			</form>
+		</div>
+	</div>
 {% endblock %}

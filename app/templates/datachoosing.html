@@ -1,15 +1,22 @@
 {% extends "base.html" %}
+{% load bootstrap %}
 
 {% block title %} Data {% endblock %}
 
 {% block bodyId %}data{% endblock %}
 
 {% block content %}
-	<form action="" method="post" enctype="multipart/form-data">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<p>
-		<input class="btn-primary" type="submit" value="Lancer le calcul"/>
-	</p>
-	</form>
+	<div class="container">
+		<div class="row col-md-offset-1 col-md-10">
+			<form action="" role="form" method="post" enctype="multipart/form-data">
+		    <legend>Choose arguments : </legend>
+				{% csrf_token %}
+				{{ form | bootstrap_horizontal }}
+			    <div class="form-group">
+			      <button type="submit" class="btn btn-primary">Launch K-Mean</button>
+			    </div>
+			</form>
+		</div>
+
+	</div>
 {% endblock %}

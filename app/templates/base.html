@@ -22,7 +22,11 @@
 	</head>
 	<body id = "{% block bodyId %} genericPage {% endblock %}">
 		<header>
-			{% block headerContent %}{% endblock %}
+			{% block headerContent %}
+			<div class="page-header">
+				<h1 style="margin-left: 2%">Anomaly detection</h1>
+			</div>
+			{% endblock %}
 		</header>
 		<section id="content">
 			{% block content %}{% endblock %}
