@@ -1,4 +1,6 @@
 var total_observations = 0,a=0,b=0;
+var color_correct = d3.scale.category20c();
+var color_anomaly = d3.scale.category20b();
 
 $.each(data.clusters, function(i, val){
   a = getTotal(i,0);
@@ -27,7 +29,7 @@ $.each(data.clusters, function(i, val){
   anomaly.append("svg").attr("height", 500);
   anomaly.append("p").text("Total : "+b).style("text-align", "center");
 
-
+  //correct
   nv.addGraph(function() {
     var chart = nv.models.pieChart()
         .x(function(d) { return d.label })
@@ -37,7 +39,8 @@ $.each(data.clusters, function(i, val){
         .labelType("percent") 
         .donut(true)          
         .donutRatio(0.35)   
-        .color(["#4183D7","#59ABE3","#81CFE0","#52B3D9","#446CB3","#C5EFF7","#22A7F0","#3498DB","#2C3E50","#19B5FE","#336E7B","#22313F","#6BB9F0","#1E8BC3","#3A539B","#34495E","#67809F","#2574A9","#1F3A93","#89C4F4","#4B77BE","#5C97BF","#E4F1FE"])
+        //.color(["#4183D7","#59ABE3","#81CFE0","#52B3D9","#446CB3","#C5EFF7","#22A7F0","#3498DB","#2C3E50","#19B5FE","#336E7B","#22313F","#6BB9F0","#1E8BC3","#3A539B","#34495E","#67809F","#2574A9","#1F3A93","#89C4F4","#4B77BE","#5C97BF","#E4F1FE"])
+        .color(function(d) {return color_correct(d.label == undefined ? d.data.label : d.label)})
         ;
 
       d3.select("#cluster"+i+" .correct svg")
@@ -48,6 +51,7 @@ $.each(data.clusters, function(i, val){
     return chart;
   });
 
+  //anomaly
   nv.addGraph(function() {
     var chart = nv.models.pieChart()
         .x(function(d) { return d.label })
@@ -57,7 +61,8 @@ $.each(data.clusters, function(i, val){
         .labelType("percent") 
         .donut(true)          
         .donutRatio(0.35)    
-        .color(["#DB0A5B","#F64747","#F1A9A0","#D2527F","#E08283","#F62459","#E26A6A","#D24D57","#F22613","#D91E18","#96281B","#EF4836","#D64541","#C0392B","#CF000F","#E74C3C"]) 
+        //.color(["#DB0A5B","#F64747","#F1A9A0","#D2527F","#E08283","#F62459","#E26A6A","#D24D57","#F22613","#D91E18","#96281B","#EF4836","#D64541","#C0392B","#CF000F","#E74C3C"]) 
+        .color(function(d) {return color_anomaly(d.label == undefined ? d.data.label : d.label)})
         ;
 
       d3.select("#cluster"+i+" .anomaly svg")
