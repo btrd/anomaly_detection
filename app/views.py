@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from forms import FileChoosingform
 from forms import DataChoosingform
-
+from kmean.normalization import Normalizer
 
 def welcome(request):
 	return render(request, 'welcome.html')
@@ -14,6 +14,9 @@ def filechoosing(request):
 	if request.method == "POST":
 		form = FileChoosingform(request.POST, request.FILES)
 		if form.is_valid():
+			file = str(request.FILES['csvfile'])
+			norm = Normalizer(request.FILES['csvfile'], False)
+			print norm.getColFloat()
 			#extract column name from file
 			return HttpResponseRedirect('/datachoosing')
 		else:

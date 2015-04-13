@@ -1,10 +1,11 @@
 #-*- coding: utf-8 -*-
 from django import forms
 
+
 class FileChoosingform(forms.Form):
-	filepath = forms.FileField(label ="Fichier csv")
+	csvfile = forms.FileField(label ="Fichier csv")
 	entete = forms.BooleanField(label = "nom dans l'entête ?", required=False, initial=True)
-	filenamepath = forms.FileField(label ="Fichier des noms", required=False)
+	namefile = forms.FileField(label ="Fichier des noms", required=False)
 
 class DataChoosingform(forms.Form):
 	CHOICES = (("0", "column0"),("1", "column1"),("2", "column2"),("3", "column3"),)
