@@ -49,10 +49,6 @@
         {
           "anomalies": [
             {
-              "value": 0,
-              "label": "Iris-setosa"
-            },
-            {
               "value": 5,
               "label": "Iris-versicolor"
             },
@@ -64,10 +60,6 @@
         },
         {
           "corrects": [
-            {
-              "value": 0,
-              "label": "Iris-setosa"
-            },
             {
               "value": 42,
               "label": "Iris-versicolor"
