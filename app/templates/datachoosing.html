@@ -8,7 +8,7 @@
 {% block content %}
 	<div class="container">
 		<div class="row col-md-offset-1 col-md-10">
-			<form action="" role="form" method="post" enctype="multipart/form-data">
+			<form id="loadSpinner" action="" role="form" method="post" enctype="multipart/form-data">
 		    <legend>Choose arguments : </legend>
 				{% csrf_token %}
 				{{ form | bootstrap_horizontal }}
@@ -17,6 +17,19 @@
 			    </div>
 			</form>
 		</div>
-
 	</div>
+
+<div class="spinner" style="display:none">
+  <div class="double-bounce1"></div>
+  <div class="double-bounce2"></div>
+</div>
+
+{% block javascript %}
+<script type="text/javascript">
+	$(loadSpinner).submit(function(){
+		$(".container").hide();
+		$(".spinner").show();
+	});
+</script>
+{% endblock %}
 {% endblock %}
