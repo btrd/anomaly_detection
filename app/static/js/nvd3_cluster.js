@@ -1,4 +1,10 @@
+var total_observations = 0,a=0,b=0;
+
 $.each(data.clusters, function(i, val){
+  a = getTotal(i,0);
+  b = getTotal(i,1);
+  total_observations += (a+b);
+
   var cluster = d3.select("#clusters").append("div")
   .attr("id", "cluster"+i)
   .attr("class", "col-md-12");
@@ -11,7 +17,7 @@ $.each(data.clusters, function(i, val){
 
   correct.append("p").text("Standards");
   correct.append("svg").attr("height", 500);
-  correct.append("p").text("Total : "+getTotal(i, 0)).style("text-align", "center");
+  correct.append("p").text("Total : "+a).style("text-align", "center");
 
   var anomaly = cluster
   .append("div")
@@ -19,7 +25,7 @@ $.each(data.clusters, function(i, val){
 
   anomaly.append("p").text("Anomalies with "+data.N+" %");
   anomaly.append("svg").attr("height", 500);
-  anomaly.append("p").text("Total : "+getTotal(i, 1)).style("text-align", "center");
+  anomaly.append("p").text("Total : "+b).style("text-align", "center");
 
 
   nv.addGraph(function() {
@@ -62,6 +68,11 @@ $.each(data.clusters, function(i, val){
     return chart;
   });
 });
+
+d3.select("#clusters").append("div").append("h4")
+  .attr("class", "col-md-12")
+  .attr("id", "total_observations")
+  .text("Total of observations : "+total_observations);
 
 function getData(i, flag) {
   return  flag == 1 ? data.clusters[i].stats[0].anomalies : data.clusters[i].stats[1].corrects;
