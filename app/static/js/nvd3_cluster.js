@@ -10,7 +10,7 @@ $.each(data.clusters, function(i, val){
   .attr("class", "col-md-offset-1 col-md-5 correct well")
 
   correct.append("p").text("Standards");
-  correct.append("svg").attr("height", 300);
+  correct.append("svg").attr("height", 500);
   correct.append("p").text("Total : "+getTotal(i, 0)).style("text-align", "center");
 
   var anomaly = cluster
@@ -18,7 +18,7 @@ $.each(data.clusters, function(i, val){
   .attr("class", "col-md-offset-1 col-md-5 anomaly well")
 
   anomaly.append("p").text("Anomalies with "+data.N+" %");
-  anomaly.append("svg").attr("height", 300);
+  anomaly.append("svg").attr("height", 500);
   anomaly.append("p").text("Total : "+getTotal(i, 1)).style("text-align", "center");
 
 
@@ -31,7 +31,7 @@ $.each(data.clusters, function(i, val){
         .labelType("percent") 
         .donut(true)          
         .donutRatio(0.35)   
-        .color(["#E4F1FE","#4183D7","#59ABE3","#81CFE0","#52B3D9","#446CB3","#C5EFF7","#22A7F0","#3498DB","#2C3E50","#19B5FE","#336E7B","#22313F","#6BB9F0","#1E8BC3","#3A539B","#34495E","#67809F","#2574A9","#1F3A93","#89C4F4","#4B77BE","#5C97BF"])
+        .color(["#4183D7","#59ABE3","#81CFE0","#52B3D9","#446CB3","#C5EFF7","#22A7F0","#3498DB","#2C3E50","#19B5FE","#336E7B","#22313F","#6BB9F0","#1E8BC3","#3A539B","#34495E","#67809F","#2574A9","#1F3A93","#89C4F4","#4B77BE","#5C97BF","#E4F1FE"])
         ;
 
       d3.select("#cluster"+i+" .correct svg")
@@ -51,7 +51,7 @@ $.each(data.clusters, function(i, val){
         .labelType("percent") 
         .donut(true)          
         .donutRatio(0.35)    
-        .color(["#FDE3A7","#F89406","#EB9532","#E87E04","#F4B350","#F2784B","#EB974E","#F5AB35","#D35400","#F39C12","#F9690E","#F9BF3B","#F27935","#E67E22"]) 
+        .color(["#DB0A5B","#F64747","#F1A9A0","#D2527F","#E08283","#F62459","#E26A6A","#D24D57","#F22613","#D91E18","#96281B","#EF4836","#D64541","#C0392B","#CF000F","#E74C3C"]) 
         ;
 
       d3.select("#cluster"+i+" .anomaly svg")
