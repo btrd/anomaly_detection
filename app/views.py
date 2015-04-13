@@ -40,7 +40,7 @@ def filechoosing(request):
 				norm = Normalizer(path, entete)
 				request.session['path'] = path
 				request.session['entete'] = entete
-				request.session['column'] = norm.getCol()
+				request.session['column'] = norm.getColFloat()
 				return HttpResponseRedirect('/datachoosing')
 			else:
 				form_results = OldResultForm()
@@ -52,7 +52,7 @@ def filechoosing(request):
 			if form_results.is_valid():
 				jsondata = request.POST['oldresult']
 				return HttpResponseRedirect('/result?file=app/static/jsons/'+jsondata)
-			else: 
+			else:
 				form = FileChoosingform()
 				return render(request, 'filechoosing.html', {'form' : form, 'form_results' : form_results})
 	else:

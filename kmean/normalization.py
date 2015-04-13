@@ -46,3 +46,33 @@ class Normalizer():
         if self.header:
             self.classes.pop(0)
         return self.classes
+
+    def getColFloat(self):
+        title = []
+        res = []
+        floats = []
+        i = 0
+        with open(self.dataFile, 'rU') as desc:
+            reader = csv.reader(desc)
+            line = reader.next()
+            for cell in line:
+                if self.header:
+                    title.append(cell)
+                else:
+                    title.append(i)
+                i += 1
+
+            line = reader.next()
+            for cell in line:
+                try: 
+                    float(cell)
+                    floats.append(True)
+                except ValueError:
+                    floats.append(False)
+                    
+            i = 0
+            for elem in title:
+                if floats[i]:
+                    res.append(elem)
+                i += 1
+            return res
