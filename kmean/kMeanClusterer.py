@@ -110,19 +110,19 @@ class KMeanClusterer():
 
 if __name__ == "__main__":
 
-    datafile = "kddcup.data_10_percent.csv"
-    fields = [0, 4, 5, 22, 24, 25, 28, 31, 32, 35, 37, 38]
+    # datafile = "kddcup.data_10_percent.csv"
+    # fields = [0, 4, 5, 22, 24, 25, 28, 31, 32, 35, 37, 38]
+    # header = False
+    # fieldClass = 41
+    # k = 23
+    # n = 20
+
+    datafile = "kddcup.data_1000.csv"
     header = False
+    fields = [0, 4, 5, 22, 24, 25, 28, 31, 32, 35, 37, 38]
     fieldClass = 41
     k = 23
     n = 20
-
-    # datafile = "kddcup.data_1000.csv"
-    # fields = [0, 4, 5, 6]
-    # header = False
-    # fieldClass = 41
-    # k = 8
-    # n = 50
 
     # datafile = "iris.csv"
     # fields = [0, 1, 2, 3]

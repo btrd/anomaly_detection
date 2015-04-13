@@ -30,7 +30,8 @@ class Cluster():
             self.observations[i] = observation
 
     def updateCentroid(self):
-        self.centroid = np.mean(self.observations, axis=0)
+        if self.observations.shape[0] > 0:
+            self.centroid = np.mean(self.observations, axis=0)
 
     def deleteObservation(self, delObs):
         self.observations = np.delete(self.observations, delObs, 0)
