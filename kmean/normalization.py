@@ -35,7 +35,7 @@ class Normalizer():
         self.data = np.loadtxt(open(self.dataFile,"rb"), usecols=fields, delimiter=",", converters={fieldClass:class2id}, skiprows=head)
 
         # get every 100 item to keep 5000 obs
-        # self.data = self.data[::100]
+        # self.data = self.data[::1000]
 
         return self.data
 

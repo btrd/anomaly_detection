@@ -27,8 +27,11 @@ class KMeanClusterer():
             else:
                 cluster.sortObservations()
                 corrects, anomalies = cluster.getAnomalies(self.n)
-                classAnomalies = anomalies[:,-2].astype(int)
                 classCorrects = corrects[:,-2].astype(int)
+                if anomalies == [] :
+                    classAnomalies = []
+                else:
+                    classAnomalies = anomalies[:,-2].astype(int)
                 tmptab = [np.bincount(classAnomalies), np.bincount(classCorrects)]
                 self.lastClusters.append(tmptab)
 
