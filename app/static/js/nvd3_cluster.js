@@ -9,7 +9,7 @@ $.each(data.clusters, function(i, val){
   .append("div")
   .attr("class", "col-md-offset-1 col-md-5 correct well")
 
-  correct.append("p").text("Normals");
+  correct.append("p").text("Standards");
   correct.append("svg").attr("height", 300);
   correct.append("p").text("Total : "+getTotal(i, 0)).style("text-align", "center");
 
