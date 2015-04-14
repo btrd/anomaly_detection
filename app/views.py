@@ -114,7 +114,7 @@ def saveData(file, K, N, fields, jsondata):
 	data['N']      = N
 	data['fields'] = fields
 	data['json']   = jsondata
-	with open(path, 'w+') as outfile:
+	with open(path, 'a+') as outfile:
 		json.dump(data, outfile)
 	return path
 
