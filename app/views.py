@@ -91,13 +91,10 @@ def datachoosing(request):
 
 def handle_uploaded_file(file, name):
 	path = 'app/static/documents/' + name
-	if not os.path.isfile(path):
-		destination = open(path, 'a+')
-		for chunk in file.chunks():
-			destination.write(chunk)
-		destination.close()
-	else:
-		print("File already on server, abord upload")
+	destination = open(path, 'a+')
+	for chunk in file.chunks():
+		destination.write(chunk)
+	destination.close()
 	return path
 
 def converttab(tab):
