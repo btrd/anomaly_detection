@@ -91,7 +91,7 @@ def datachoosing(request):
 
 def handle_uploaded_file(file, name):
 	path = 'app/static/documents/' + name
-	destination = open(path, 'a+')
+	destination = open(path, 'w+')
 	for chunk in file.chunks():
 		destination.write(chunk)
 	destination.close()
