@@ -25,6 +25,9 @@ class Normalizer():
             head = 1
         else:
             head = 0
+
+        #fields = [0, 4, 5, 22, 24, 25, 28, 31, 32, 35, 37, 38]
+        
         fields.append(fieldClass)
 
         classes = self.runClasses(fieldClass)

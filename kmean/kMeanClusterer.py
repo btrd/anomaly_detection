@@ -117,19 +117,19 @@ if __name__ == "__main__":
     # k = 23
     # n = 20
 
-    # datafile = "kddcup.data_1000.csv"
-    # header = False
-    # fields = [0, 4, 5, 22, 24, 25, 28, 31, 32, 35, 37, 38]
-    # fieldClass = 41
-    # k = 23
-    # n = 20
+    datafile = "kddcup.data_1000.csv"
+    header = False
+    fields = [0, 4, 5, 22, 24, 25, 28, 31, 32, 35, 37, 38]
+    fieldClass = 41
+    k = 17
+    n = 20
 
-    datafile = "iris.csv"
-    fields = [0, 1, 2, 3]
-    fieldClass = 4
-    header = True
-    k = 3
-    n = 50
+    # datafile = "iris.csv"
+    # fields = [0, 1, 2, 3]
+    # fieldClass = 4
+    # header = True
+    # k = 3
+    # n = 50
 
     norm = Normalizer(datafile, header)
     res = norm.run(fields, fieldClass)
